@@ -19,7 +19,7 @@ type UrlDBRecord struct {
 	Short_url string `json:"short_url"`
 }
 
-func shortPage(w http.ResponseWriter, r *http.Request) {
+func ShortPage(w http.ResponseWriter, r *http.Request) {
 	/* По условиям задачи при переходе на эту страницу на вход поступает длинная ссылка,
 	возвращается сокращённая ссылка в формате JSON */
 	var urlStruct JsonStruct
@@ -50,7 +50,7 @@ func getShortLink(long string) string {
 		letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" // Алфавит нашей системы исчисления
 		length  = int64(len(letters))
 	)
-	db, _ := sql.Open("sqlite3", "../../url_service.db")
+	db, _ := sql.Open("sqlite3", "url_service.db")
 	defer db.Close()
 	row := db.QueryRow("SELECT * FROM urls WHERE long_url=?", long) //Проверяем существует ли уже у нас в базе данная ссылка
 	answer := UrlDBRecord{}

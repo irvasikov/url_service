@@ -7,17 +7,19 @@ import (
 	"net/http"
 )
 
-type JsonStruct struct { // Структура для декодирования и кодирования JSON
+type JsonStruct struct {
+	// Структура для декодирования и кодирования JSON
 	Url string `json:"url"`
 }
 
-type UrlDBRecord struct { // Структура записей в базе данных
+type UrlDBRecord struct {
+	// Структура записей в базе данных
 	Id        int64  `json:"id"`
 	Long_url  string `json:"long_url"`
 	Short_url string `json:"short_url"`
 }
 
-func longPage(w http.ResponseWriter, r *http.Request) {
+func LongPage(w http.ResponseWriter, r *http.Request) {
 	/* По условиям задачи при переходе на эту страницу на вход поступает длинная ссылка,
 	возвращается сокращённая ссылка в формате JSON */
 	var urlStruct JsonStruct
@@ -27,7 +29,7 @@ func longPage(w http.ResponseWriter, r *http.Request) {
 		panic(errDecode)
 	}
 	shortUrl := urlStruct.Url
-	db, _ := sql.Open("sqlite3", "../../url_service.db")
+	db, _ := sql.Open("sqlite3", "url_service.db")
 	defer db.Close()
 	// Проверка есть ли у нас в базе данных ссылки с такой сокращенной ссылкой
 	row := db.QueryRow("SELECT * FROM urls WHERE short_url=?", shortUrl)

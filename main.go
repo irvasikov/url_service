@@ -5,6 +5,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/irvasikov/url_service/internal/pkg/longPage"
+	"github.com/irvasikov/url_service/internal/pkg/shortPage"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -21,7 +24,7 @@ func main() {
 		panic(err)
 	}
 	database.Close()
-	http.HandleFunc("/short/", shortPage.shortPage) // прослушиваем этот адрес для получения сокращенной ссылки
-	http.HandleFunc("/long/", longPage.longPage)    // прослушиваем этот адрес для получения длинной ссылки
+	http.HandleFunc("/short/", shortPage.ShortPage) // прослушиваем этот адрес для получения сокращенной ссылки
+	http.HandleFunc("/long/", longPage.LongPage)    // прослушиваем этот адрес для получения длинной ссылки
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
